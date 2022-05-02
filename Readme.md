@@ -1,0 +1,1 @@
+A containerized COVID API APP using node, typescript and PosgreSQL. Run `start-services.sh` to build and run containers.
