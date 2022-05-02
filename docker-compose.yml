@@ -1,0 +1,36 @@
+version: "3.9" # optional since v1.27.0
+services:
+  covid-api:
+    container_name: covid-api
+    build:
+      context: .
+      target: covid-api
+    image: covid-api
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+    links:
+      - covid-db
+    depends_on:
+      - covid-db
+    environment:
+      POSTGRES_PASSWORD: password
+      PG_CONNECTION_STRING: postgresql://postgres:password@covid-db:5432/covid_data
+
+  covid-db:
+    container_name: covid-db
+    build:
+      context: .
+      target: covid-db
+    image: covid-db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: covid_data
+      POSTGRES_PASSWORD: password
+    volumes:
+      - /covid-db
+
+volumes:
+  covid-db:
